@@ -8,11 +8,11 @@ CakePHP Money Plugin
     <a href="https://codecov.io/gh/cakedc/money" target="_blank">
         <img alt="Coverage Status" src="https://img.shields.io/codecov/c/github/cakedc/money?style=flat-square">
     </a>
-    <a href="https://packagist.org/packages/cakedc/money" target="_blank">
-        <img alt="Total Downloads" src="https://img.shields.io/packagist/dt/cakedc/money.svg?style=flat-square">
+    <a href="https://packagist.org/packages/cakedc/cakephp-money" target="_blank">
+        <img alt="Total Downloads" src="https://img.shields.io/packagist/dt/cakedc/cakephp-money.svg?style=flat-square">
     </a>
-    <a href="https://packagist.org/packages/cakedc/money" target="_blank">
-        <img alt="Latest Stable Version" src="https://img.shields.io/packagist/v/cakedc/money.svg?style=flat-square&label=stable">
+    <a href="https://packagist.org/packages/cakedc/cakephp-money" target="_blank">
+        <img alt="Latest Stable Version" src="https://img.shields.io/packagist/v/cakedc/cakephp-money.svg?style=flat-square&label=stable">
     </a>
 </p>
 
