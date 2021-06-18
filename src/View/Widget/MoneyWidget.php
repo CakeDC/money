@@ -1,12 +1,24 @@
 <?php
-
-namespace CakeDC\Accounting\View\Widget;
+/**
+ * Copyright 2021, Cake Development Corporation (https://www.cakedc.com)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright Copyright 2021, Cake Development Corporation (https://www.cakedc.com)
+ * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ */
+namespace CakeDC\Money\View\Widget;
 
 use Cake\View\Form\ContextInterface;
 use Cake\View\Widget\WidgetInterface;
-use CakeDC\Accounting\Utility\MoneyUtil;
-use Money\Money;
+use CakeDC\Money\Utility\MoneyUtil;
+use CakeDC\Money\Money;
 
+/**
+ * Class MoneyWidget
+ * @package CakeDC\Money\View\Widget
+ */
 class MoneyWidget implements WidgetInterface
 {
     /**
@@ -33,7 +45,7 @@ class MoneyWidget implements WidgetInterface
      * @param \Cake\View\Form\ContextInterface $context The current form context.
      * @return string Generated HTML for the widget element.
      */
-    public function render(array $data, ContextInterface $context)
+    public function render(array $data, ContextInterface $context): string
     {
         if ($data['val'] instanceof Money) {
             $data['value'] = MoneyUtil::float($data['val']);
@@ -65,7 +77,7 @@ class MoneyWidget implements WidgetInterface
      * @param array $data The data to render.
      * @return array Array of fields to secure.
      */
-    public function secureFields(array $data)
+    public function secureFields(array $data): array
     {
         return [$data['name']];
     }

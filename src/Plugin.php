@@ -1,12 +1,23 @@
 <?php
+/**
+ * Copyright 2021, Cake Development Corporation (https://www.cakedc.com)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright Copyright 2021, Cake Development Corporation (https://www.cakedc.com)
+ * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ */
 declare(strict_types=1);
 
 namespace CakeDC\Money;
 
 use Cake\Core\BasePlugin;
 use Cake\Core\PluginApplicationInterface;
+use Cake\Database\Type;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\RouteBuilder;
+use CakeDC\Money\Database\Type\MoneyType;
 
 /**
  * Plugin for CakeDC\Money
@@ -24,6 +35,7 @@ class Plugin extends BasePlugin
      */
     public function bootstrap(PluginApplicationInterface $app): void
     {
+        Type::map('money', MoneyType::class);
     }
 
     /**
@@ -39,7 +51,7 @@ class Plugin extends BasePlugin
     {
         $routes->plugin(
             'CakeDC/Money',
-            ['path' => '/cake-d-c/money'],
+            ['path' => '/money'],
             function (RouteBuilder $builder) {
                 // Add custom routes here
 
