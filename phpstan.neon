@@ -1,0 +1,7 @@
+parameters:
+    level: 6
+    autoload_files:
+        - tests/bootstrap.php
+    ignoreErrors:
+        - '#Method CakeDC\\Auth\\Rbac\\Rules\\AbstractRule::_getTableFromRequest\(\) should return Cake\\ORM\\Table but returns Cake\\Datasource\\RepositoryInterface.#'
+services:
