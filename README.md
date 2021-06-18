@@ -26,7 +26,7 @@ Requirements
 ------------
 
 * CakePHP 4.0.0+
-* PHP 7.3+
+* PHP 7.2+
 
 Versions and branches
 ---------------------
