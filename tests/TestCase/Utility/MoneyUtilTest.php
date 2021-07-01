@@ -3,14 +3,9 @@ declare(strict_types=1);
 
 namespace CakeDC\Money\Test\TestCase\Utility;
 
-//use CakeDC\Money\View\Helper\MoneyHelper;
+use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use CakeDC\Money\Utility\MoneyUtil;
-
-//use Cake\View\View;
-//use CakeDC\Money\Money;
-//use Money\Currency;
-//use Money\Money as MoneyMoney;
 
 /**
  * CakeDC\Money\View\Helper\MoneyHelper Test Case
@@ -48,7 +43,7 @@ class MoneyUtilTest extends TestCase
     }
 
 
-    public function testMoney(): void
+    public function testMoneyNumericValue(): void
     {
         $this->assertInstanceOf(
             \CakeDC\Money\Money::class,
@@ -62,11 +57,6 @@ class MoneyUtilTest extends TestCase
 
         $this->assertInstanceOf(
             \CakeDC\Money\Money::class,
-            MoneyUtil::money('100')
-        );
-
-        $this->assertInstanceOf(
-            \CakeDC\Money\Money::class,
             MoneyUtil::money(-100)
         );
 
@@ -74,7 +64,63 @@ class MoneyUtilTest extends TestCase
             \CakeDC\Money\Money::class,
             MoneyUtil::money(100.15)
         );
+
+        $this->assertInstanceOf(
+            \CakeDC\Money\Money::class,
+            MoneyUtil::money(100.1)
+        );
     }
+
+    public function testMoneyStringValue(): void
+    {
+        $this->assertInstanceOf(
+            \CakeDC\Money\Money::class,
+            MoneyUtil::money('100')
+        );
+
+        $this->assertInstanceOf(
+            \CakeDC\Money\Money::class,
+            MoneyUtil::money('100', true)
+        );
+
+        $this->assertInstanceOf(
+            \CakeDC\Money\Money::class,
+            MoneyUtil::money('-100')
+        );
+
+        $this->assertInstanceOf(
+            \CakeDC\Money\Money::class,
+            MoneyUtil::money('100.15')
+        );
+    }
+
+    public function testMoneyNullValue(): void
+    {
+        $this->assertNull(
+            MoneyUtil::money('')
+        );
+
+        $this->assertInstanceOf(
+            \CakeDC\Money\Money::class,
+            MoneyUtil::money(0)
+        );
+    }
+
+    public function testMoneyClassValue(): void
+    {
+        $money = MoneyUtil::money(10);
+
+        $this->assertInstanceOf(
+            \CakeDC\Money\Money::class,
+            MoneyUtil::money($money)
+        );
+
+        $this->assertEquals(
+            $money,
+            MoneyUtil::money($money)
+        );
+    }
+
 
     public function testFloat(): void
     {
@@ -93,6 +139,15 @@ class MoneyUtilTest extends TestCase
         $money = MoneyUtil::money(200);
         $this->assertEquals('$200.00', MoneyUtil::format($money));
     }
+
+    //public function testFormatCurrencies()
+    //{
+    //    $money = MoneyUtil::money(100.15);
+    //    $this->assertEquals('$100.15', MoneyUtil::format($money));
+    //    
+    //    $money = MoneyUtil::money(200);
+    //    $this->assertEquals('$200.00', MoneyUtil::format($money));
+    //}
 
     public function testZero()
     {

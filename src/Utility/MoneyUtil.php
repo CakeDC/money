@@ -10,14 +10,10 @@
  */
 namespace CakeDC\Money\Utility;
 
-use Cake\Core\Configure;
-use Cake\Error\Debugger;
-use CakeDC\Accounting\Database\Type\MoneyType;
 use Money\Currencies\BitcoinCurrencies;
 use Money\Currencies\ISOCurrencies;
 use Money\Currency;
 use Money\Formatter\BitcoinMoneyFormatter;
-use Money\Formatter\DecimalMoneyFormatter;
 use Money\Formatter\IntlMoneyFormatter;
 use CakeDC\Money\Money;
 use Money\MoneyFormatter;
@@ -31,7 +27,9 @@ use Money\MoneyFormatter;
  */
 class MoneyUtil
 {
-    /** @var MoneyFormatter */
+    /**
+     * @var MoneyFormatter
+     */
     protected static $_moneyFormatters = [];
 
     /**
@@ -56,7 +54,7 @@ class MoneyUtil
             if (!isset($parts[1])) {
                 $parts[1] = '00';
             }
-            $decimalLength = strlen($parts[1] ?? '') ;
+            $decimalLength = strlen($parts[1] ?? '');
 
             if ($decimalLength == 1) {
                 $parts[1] = $parts[1] . '0';

@@ -49,6 +49,8 @@ class Money
      */
     public function __call($name, $arguments)
     {
+        $arguments = self::processArguments($arguments);
+
         return call_user_func_array([$this->_money, $name], $arguments);
     }
 
@@ -59,6 +61,8 @@ class Money
      */
     public static function __callStatic($name, $arguments)
     {
+        $arguments = self::processArguments($arguments);
+
         return new self(forward_static_call_array([MoneyPHP::class, $name], $arguments));
     }
 
@@ -68,5 +72,20 @@ class Money
     public function __toString(): string
     {
         return MoneyUtil::format($this);
+    }
+
+    /**
+     * @param array $arguments
+     * @return array
+     */
+    protected static function processArguments($arguments = [])
+    {
+        for ($i=0; $i < count($arguments); $i++) { 
+            if ($arguments[$i] instanceof Money) {
+                $arguments[$i] = $arguments[$i]->getMoney();
+            }
+        }
+
+        return $arguments;
     }
 }
