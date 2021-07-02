@@ -6,6 +6,7 @@ namespace CakeDC\Money\Test\TestCase\View\Helper;
 use CakeDC\Money\View\Helper\MoneyHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
+use CakeDC\Money\Utility\MoneyUtil;
 
 /**
  * CakeDC\Money\View\Helper\MoneyHelper Test Case
@@ -39,7 +40,6 @@ class MoneyHelperTest extends TestCase
     public function tearDown(): void
     {
         unset($this->MoneyHelper);
-
         parent::tearDown();
     }
 
@@ -50,6 +50,34 @@ class MoneyHelperTest extends TestCase
      */
     public function testCurrency(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->assertEquals(
+            '<span class="">$100.00</span>',
+            $this->MoneyHelper->currency(100)
+        );
+
+        $this->assertEquals(
+            '<span class="">$100.00</span>', 
+            $this->MoneyHelper->currency('100')
+        );
+
+        $this->assertEquals(
+            '<span class="negative-balance">-$100.00</span>',
+            $this->MoneyHelper->currency(-100)
+        );
+
+        $this->assertEquals(
+            '<span class="negative-balance">-$100.00</span>',
+            $this->MoneyHelper->currency("-100")
+        );
+
+        $this->assertEquals(
+            '<span class="">$100.00</span>',
+            $this->MoneyHelper->currency(MoneyUtil::money(100))
+        );
+
+        $this->assertEquals(
+            '<span class="">$100.00</span>',
+            $this->MoneyHelper->currency(MoneyUtil::money('100'))
+        );
     }
 }
