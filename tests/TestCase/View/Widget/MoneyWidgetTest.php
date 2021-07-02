@@ -3,19 +3,26 @@ declare(strict_types=1);
 
 namespace CakeDC\Money\Test\TestCase\View\Helper;
 
-use CakeDC\Money\View\Helper\MoneyHelper;
 use Cake\TestSuite\TestCase;
-use Cake\View\Helper\FormHelper;
-use Cake\View\View;
-use CakeDC\Money\Money;
-use Money\Currency;
-use Money\Money as MoneyMoney;
+use Cake\View\StringTemplate;
+use CakeDC\Money\Utility\MoneyUtil;
+use CakeDC\Money\View\Widget\MoneyWidget;
 
 /**
  * CakeDC\Money\View\Helper\MoneyHelper Test Case
  */
 class MoneyWidgetTest extends TestCase
 {
+    /**
+     * @var \Cake\View\StringTemplate
+     */
+    public $templates;
+
+    /**
+     * @var \Cake\View\Form\ContextInterface
+     */
+    public $context;
+
     /**
      * Test subject
      *
@@ -31,9 +38,11 @@ class MoneyWidgetTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $view = new View();
-        $this->FormHelper = new FormHelper($view);
-        $this->MoneyHelper = new MoneyHelper($view);
+        $templates = [
+            'input' => '<input type="{{type}}" name="{{name}}"{{attrs}}/>',
+        ];
+        $this->templates = new StringTemplate($templates);
+        $this->context = $this->getMockBuilder('Cake\View\Form\ContextInterface')->getMock();
     }
 
     /**
@@ -43,13 +52,67 @@ class MoneyWidgetTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->MoneyHelper);
+        unset($this->templates);
+        unset($this->context);
         parent::tearDown();
     }
 
-    //public function testInputMoneyWidget(): void
-    //{
-    //    $this->assertTextContains('type="number"', $this->FormHelper->money('money'));
-    //}
+    public function testInputMoneyWidget(): void
+    {
+        $money = new MoneyWidget($this->templates);
+        $data = [
+            'name' => 'amount',
+            'val' => 10,
+            'templateVars' => [],
+        ];
+        $this->assertTextContains('type="number"', $money->render($data, $this->context));
 
+        $data = [
+            'name' => 'amount',
+            'val' => MoneyUtil::money(10),
+            'templateVars' => [],
+        ];
+        $this->assertTextContains('type="number"', $money->render($data, $this->context));
+    }
+
+    public function testInputMoneyWidgetMaxMin(): void
+    {
+        $money = new MoneyWidget($this->templates);
+        $data = [
+            'name' => 'amount',
+            'val' => 10,
+            'max' => 15,
+            'min' => 5,
+            'templateVars' => [],
+        ];
+
+        $this->assertTextContains('max="15"', $money->render($data, $this->context));
+        $this->assertTextContains('min="5"', $money->render($data, $this->context));
+
+        $money = new MoneyWidget($this->templates);
+        $data = [
+            'name' => 'amount',
+            'val' => MoneyUtil::money(10),
+            'max' => MoneyUtil::money(15),
+            'min' => MoneyUtil::money(5),
+            'templateVars' => [],
+        ];
+
+        $this->assertTextContains('max="15"', $money->render($data, $this->context));
+        $this->assertTextContains('min="5"', $money->render($data, $this->context));
+    }
+
+    public function testSecureFields(): void
+    {
+        $money = new MoneyWidget($this->templates);
+        $data = [
+            'name' => 'amount',
+            'val' => 10,
+            'max' => 15,
+            'min' => 5,
+            'templateVars' => [],
+        ];
+
+        $this->assertTrue(in_array('amount', $money->secureFields($data)));
+    }
 }
