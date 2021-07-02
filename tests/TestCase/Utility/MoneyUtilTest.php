@@ -6,6 +6,8 @@ namespace CakeDC\Money\Test\TestCase\Utility;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use CakeDC\Money\Utility\MoneyUtil;
+use Exception;
+use RuntimeException;
 
 /**
  * CakeDC\Money\View\Helper\MoneyHelper Test Case
@@ -27,9 +29,6 @@ class MoneyUtilTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        //$view = new View();
-        //$this->MoneyHelper = new MoneyHelper($view);
     }
 
     /**
@@ -140,14 +139,36 @@ class MoneyUtilTest extends TestCase
         $this->assertEquals('$200.00', MoneyUtil::format($money));
     }
 
-    //public function testFormatCurrencies()
-    //{
-    //    $money = MoneyUtil::money(100.15);
-    //    $this->assertEquals('$100.15', MoneyUtil::format($money));
-    //    
-    //    $money = MoneyUtil::money(200);
-    //    $this->assertEquals('$200.00', MoneyUtil::format($money));
-    //}
+    public function testFormatCurrencies()
+    {
+        Configure::write('Money.currency', 'EUR');
+        
+        $money = MoneyUtil::money(100.15);
+        $this->assertEquals('€100.15', MoneyUtil::format($money));
+        
+        $money = MoneyUtil::money('200');
+        $this->assertEquals('€200.00', MoneyUtil::format($money));
+    }
+    
+    public function testFormatBitcoin()
+    {
+        Configure::write('Money.currency', 'XBT');
+        $money = MoneyUtil::money(1);
+
+        $this->assertInstanceOf(\CakeDC\Money\Money::class, $money);
+        $this->assertEquals('Ƀ0.0000010', MoneyUtil::format($money));
+    }
+    
+    public function testFormatOther()
+    {
+        try{
+            Configure::write('Money.currency', 'NotCurrency');
+            $money = MoneyUtil::money(100.15);
+            MoneyUtil::format($money);
+        } catch (\Exception $e){
+            $this->assertInstanceOf(RuntimeException::class, $e);
+        }
+    }
 
     public function testZero()
     {
