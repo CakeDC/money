@@ -43,14 +43,16 @@ class MoneyHelper extends Helper
     {
         $class = '';
         if ($value instanceof Money) {
-            $value = MoneyUtil::format($value);
+            $output = MoneyUtil::format($value);
         } else {
-            $value = $this->Number->currency($value);
+            $output = $this->Number->currency($value);
         }
-        if ($value < 0) {
+        if ((is_numeric($value) && $value < 0) ||
+            ($value instanceof Money && MoneyUtil::lessThanZero($value))
+        ) {
             $class = 'negative-balance';
         }
 
-        return $this->Html->tag('span', $value, ['class' => $class]);
+        return $this->Html->tag('span', $output, ['class' => $class]);
     }
 }

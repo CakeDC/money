@@ -11,13 +11,10 @@
 namespace CakeDC\Money\Utility;
 
 use Cake\Core\Configure;
-use Cake\Error\Debugger;
-use CakeDC\Accounting\Database\Type\MoneyType;
 use Money\Currencies\BitcoinCurrencies;
 use Money\Currencies\ISOCurrencies;
 use Money\Currency;
 use Money\Formatter\BitcoinMoneyFormatter;
-use Money\Formatter\DecimalMoneyFormatter;
 use Money\Formatter\IntlMoneyFormatter;
 use CakeDC\Money\Money;
 use Money\MoneyFormatter;
@@ -31,7 +28,9 @@ use Money\MoneyFormatter;
  */
 class MoneyUtil
 {
-    /** @var MoneyFormatter */
+    /**
+     * @var MoneyFormatter
+     */
     protected static $_moneyFormatters = [];
 
     /**
@@ -56,7 +55,7 @@ class MoneyUtil
             if (!isset($parts[1])) {
                 $parts[1] = '00';
             }
-            $decimalLength = strlen($parts[1] ?? '') ;
+            $decimalLength = strlen($parts[1] ?? '');
 
             if ($decimalLength == 1) {
                 $parts[1] = $parts[1] . '0';
@@ -64,8 +63,9 @@ class MoneyUtil
 
             $value = ltrim($parts[0] . $parts[1], '0');
         }
-
-        return Money::USD(!empty($value) ? str_replace(',', '', $value) : 0);
+        
+        $currency = Configure::read('Money.currency', 'USD');
+        return Money::{$currency}(!empty($value) ? str_replace(',', '', $value) : 0);
     }
 
     /**
@@ -108,7 +108,7 @@ class MoneyUtil
         } elseif ($currency->isAvailableWithin($bitcoin)) {
             $moneyFormatter = new BitcoinMoneyFormatter(7, $bitcoin);
         } else {
-            throw new \RuntimeException(sprintf('Cannot format currency \'%s\'. Only ISO currencies and Bitcoin are allowed.'));
+            throw new \RuntimeException(sprintf('Cannot format currency \'%s\'. Only ISO currencies and Bitcoin are allowed.', $currency));
         }
         static::$_moneyFormatters[$currency->getCode()] = $moneyFormatter;
         return static::$_moneyFormatters[$currency->getCode()];
