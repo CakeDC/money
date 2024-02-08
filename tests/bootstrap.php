@@ -33,6 +33,11 @@ require_once $root . '/vendor/autoload.php';
  */
 require_once $root . '/vendor/cakephp/cakephp/tests/bootstrap.php';
 
+/**
+ * Load global functions.
+ */
+require_once CAKE . 'functions.php';
+
 if (file_exists($root . '/config/bootstrap.php')) {
     require $root . '/config/bootstrap.php';
 

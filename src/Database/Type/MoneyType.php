@@ -11,15 +11,11 @@
 namespace CakeDC\Money\Database\Type;
 
 use Cake\Core\Configure;
-
-use Cake\Database\DriverInterface;
+use Cake\Database\Driver;
 use Cake\Database\Type\BaseType;
 use Cake\Database\TypeInterface;
-use Cake\Error\Debugger;
 use CakeDC\Money\Utility\MoneyUtil;
 use CakeDC\Money\Money;
-use http\Exception\RuntimeException;
-use Money\Money as MoneyPHP;
 use PDO;
 
 /**
@@ -37,7 +33,7 @@ class MoneyType extends BaseType implements TypeInterface
      * @param \Cake\Database\DriverInterface $driver Object from which database preferences and configuration will be extracted
      * @return ?Money Given value casted from a database to a PHP equivalent.
      */
-    public function toPHP($value, DriverInterface $driver) : ?Money
+    public function toPHP(mixed $value, Driver $driver) : ?Money
     {
         if ($value === null) {
             return null;
@@ -74,9 +70,8 @@ class MoneyType extends BaseType implements TypeInterface
      * @param \Cake\Database\DriverInterface $driver Object from which database preferences and configuration will be extracted.
      * @return ?string Given PHP type casted to one acceptable by a database.
      */
-    public function toDatabase($value, DriverInterface $driver) : ?string
+    public function toDatabase($value, Driver $driver) : ?string
     {
-
         if ($value === null) {
             return null;
         }
@@ -94,7 +89,7 @@ class MoneyType extends BaseType implements TypeInterface
      * @param \Cake\Database\DriverInterface $driver Object from which database preferences and configuration will be extracted.
      * @return int Given value casted to its Statement equivalent.
      */
-    public function toStatement($value, DriverInterface $driver) : int
+    public function toStatement($value, Driver $driver) : int
     {
         if ($value === null) {
             return PDO::PARAM_NULL;

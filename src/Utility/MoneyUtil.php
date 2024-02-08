@@ -102,10 +102,10 @@ class MoneyUtil
         }
         $iso = new ISOCurrencies();
         $bitcoin = new BitcoinCurrencies();
-        if ($currency->isAvailableWithin($iso)) {
+        if ($iso->contains($currency)) {
             $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
             $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $iso);
-        } elseif ($currency->isAvailableWithin($bitcoin)) {
+        } elseif ($bitcoin->contains($currency)) {
             $moneyFormatter = new BitcoinMoneyFormatter(7, $bitcoin);
         } else {
             throw new \RuntimeException(sprintf('Cannot format currency \'%s\'. Only ISO currencies and Bitcoin are allowed.', $currency));

@@ -21,7 +21,7 @@ use CakeDC\Money\Money;
  */
 class MoneyHelper extends Helper
 {
-    protected $helpers = ['Html', 'Number'];
+    protected array $helpers = ['Html', 'Number'];
 
     /**
      * @param array $config
