@@ -51,7 +51,12 @@ class Money
     {
         $arguments = self::processArguments($arguments);
 
-        return call_user_func_array([$this->_money, $name], $arguments);
+        $result = call_user_func_array([$this->_money, $name], $arguments);
+        if ($result instanceof MoneyPHP) {
+            return new self($result);
+        }
+
+        return $result;
     }
 
     /**
