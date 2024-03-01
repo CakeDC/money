@@ -16,8 +16,9 @@ use Cake\Core\Configure;
 use Cake\Database\Driver;
 use Cake\Database\Type\BaseType;
 use Cake\Database\TypeInterface;
-use CakeDC\Money\Utility\MoneyUtil;
 use CakeDC\Money\Money;
+use CakeDC\Money\Utility\MoneyUtil;
+use InvalidArgumentException;
 use PDO;
 
 /**
@@ -34,7 +35,7 @@ class MoneyType extends BaseType implements TypeInterface
      * @param \Cake\Database\Driver $driver Object from which database preferences and configuration will be extracted
      * @return ?\CakeDC\Money\Money Given value casted from a database to a PHP equivalent.
      */
-    public function toPHP(mixed $value, Driver $driver) : ?Money
+    public function toPHP(mixed $value, Driver $driver): ?Money
     {
         if ($value === null) {
             return null;
@@ -59,7 +60,6 @@ class MoneyType extends BaseType implements TypeInterface
         if ($value === null) {
             return null;
         }
-        $currency = Configure::read('Money.currency', 'USD');
 
         return MoneyUtil::money($value);
     }
@@ -71,13 +71,13 @@ class MoneyType extends BaseType implements TypeInterface
      * @param \Cake\Database\Driver $driver Object from which database preferences and configuration will be extracted.
      * @return ?string Given PHP type casted to one acceptable by a database.
      */
-    public function toDatabase(mixed $value, Driver $driver) : ?string
+    public function toDatabase(mixed $value, Driver $driver): ?string
     {
         if ($value === null) {
             return null;
         }
         if (!($value instanceof Money)) {
-            throw new \InvalidArgumentException(__('Value must be instance of Money'));
+            throw new InvalidArgumentException(__('Value must be instance of Money'));
         }
 
         return $value->getAmount();
@@ -90,7 +90,7 @@ class MoneyType extends BaseType implements TypeInterface
      * @param \Cake\Database\Driver $driver Object from which database preferences and configuration will be extracted.
      * @return int Given value casted to its Statement equivalent.
      */
-    public function toStatement(mixed $value, Driver $driver) : int
+    public function toStatement(mixed $value, Driver $driver): int
     {
         if ($value === null) {
             return PDO::PARAM_NULL;

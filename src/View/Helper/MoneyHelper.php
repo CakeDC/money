@@ -44,10 +44,10 @@ class MoneyHelper extends Helper
     /**
      * Format number or money as currency.
      *
-     * @param \CakeDC\Money\Money|float|string $value
+     * @param \CakeDC\Money\Money|string|float $value
      * @return string
      */
-    public function currency($value): string
+    public function currency(Money|float|string $value): string
     {
         $class = '';
         if ($value instanceof Money) {

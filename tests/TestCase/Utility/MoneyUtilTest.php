@@ -5,7 +5,9 @@ namespace CakeDC\Money\Test\TestCase\Utility;
 
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
+use CakeDC\Money\Money;
 use CakeDC\Money\Utility\MoneyUtil;
+use Exception;
 use RuntimeException;
 
 /**
@@ -43,27 +45,27 @@ class MoneyUtilTest extends TestCase
     public function testMoneyNumericValue(): void
     {
         $this->assertInstanceOf(
-            \CakeDC\Money\Money::class,
+            Money::class,
             MoneyUtil::money(100)
         );
 
         $this->assertInstanceOf(
-            \CakeDC\Money\Money::class,
+            Money::class,
             MoneyUtil::money(100, true)
         );
 
         $this->assertInstanceOf(
-            \CakeDC\Money\Money::class,
+            Money::class,
             MoneyUtil::money(-100)
         );
 
         $this->assertInstanceOf(
-            \CakeDC\Money\Money::class,
+            Money::class,
             MoneyUtil::money(100.15)
         );
 
         $this->assertInstanceOf(
-            \CakeDC\Money\Money::class,
+            Money::class,
             MoneyUtil::money(100.1)
         );
     }
@@ -71,22 +73,22 @@ class MoneyUtilTest extends TestCase
     public function testMoneyStringValue(): void
     {
         $this->assertInstanceOf(
-            \CakeDC\Money\Money::class,
+            Money::class,
             MoneyUtil::money('100')
         );
 
         $this->assertInstanceOf(
-            \CakeDC\Money\Money::class,
+            Money::class,
             MoneyUtil::money('100', true)
         );
 
         $this->assertInstanceOf(
-            \CakeDC\Money\Money::class,
+            Money::class,
             MoneyUtil::money('-100')
         );
 
         $this->assertInstanceOf(
-            \CakeDC\Money\Money::class,
+            Money::class,
             MoneyUtil::money('100.15')
         );
     }
@@ -98,7 +100,7 @@ class MoneyUtilTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            \CakeDC\Money\Money::class,
+            Money::class,
             MoneyUtil::money(0)
         );
     }
@@ -108,7 +110,7 @@ class MoneyUtilTest extends TestCase
         $money = MoneyUtil::money(10);
 
         $this->assertInstanceOf(
-            \CakeDC\Money\Money::class,
+            Money::class,
             MoneyUtil::money($money)
         );
 
@@ -152,7 +154,7 @@ class MoneyUtilTest extends TestCase
         Configure::write('Money.currency', 'XBT');
         $money = MoneyUtil::money(1);
 
-        $this->assertInstanceOf(\CakeDC\Money\Money::class, $money);
+        $this->assertInstanceOf(Money::class, $money);
         $this->assertEquals('Ƀ0.0000010', MoneyUtil::format($money));
     }
 
@@ -162,7 +164,7 @@ class MoneyUtilTest extends TestCase
             Configure::write('Money.currency', 'NotCurrency');
             $money = MoneyUtil::money(100.15);
             MoneyUtil::format($money);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->assertInstanceOf(RuntimeException::class, $e);
         }
     }
@@ -172,7 +174,7 @@ class MoneyUtilTest extends TestCase
         $money = MoneyUtil::zero();
 
         $this->assertInstanceOf(
-            \CakeDC\Money\Money::class,
+            Money::class,
             $money
         );
 

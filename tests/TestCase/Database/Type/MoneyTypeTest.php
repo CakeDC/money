@@ -5,7 +5,9 @@ namespace CakeDC\Money\Test\TestCase\Utility;
 
 use Cake\TestSuite\TestCase;
 use CakeDC\Money\Database\Type\MoneyType;
+use CakeDC\Money\Money;
 use CakeDC\Money\Utility\MoneyUtil;
+use InvalidArgumentException;
 use PDO;
 
 /**
@@ -38,13 +40,13 @@ class MoneyTypeTest extends TestCase
     public function testToPhp()
     {
         $this->assertNull($this->moneyType->toPHP(null, $this->driver));
-        $this->assertInstanceOf(\CakeDC\Money\Money::class, $this->moneyType->toPHP(100, $this->driver));
+        $this->assertInstanceOf(Money::class, $this->moneyType->toPHP(100, $this->driver));
     }
 
     public function testMarshal()
     {
         $this->assertNull($this->moneyType->marshal(null));
-        $this->assertInstanceOf(\CakeDC\Money\Money::class, $this->moneyType->marshal(100));
+        $this->assertInstanceOf(Money::class, $this->moneyType->marshal(100));
     }
 
     public function testToDatabase()
@@ -55,7 +57,7 @@ class MoneyTypeTest extends TestCase
 
     public function testToDatabaseInvalidArgument()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->moneyType->toDatabase(100, $this->driver);
     }
 

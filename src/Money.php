@@ -73,7 +73,7 @@ class Money
     /**
      * @var \Money\Money
      */
-    protected $_money;
+    protected MoneyPHP $_money;
 
     /**
      * @return \Money\Money
@@ -83,6 +83,11 @@ class Money
         return $this->_money;
     }
 
+    /**
+     * Constructor
+     *
+     * @param \Money\Money $money
+     */
     public function __construct(MoneyPHP $money)
     {
         $this->_money = $money;
@@ -91,9 +96,9 @@ class Money
     /**
      * @param string $name
      * @param array $arguments
-     * @return false|mixed
+     * @return mixed|false
      */
-    public function __call(string $name, array $arguments)
+    public function __call(string $name, array $arguments): mixed
     {
         $arguments = self::processArguments($arguments);
         // @phpstan-ignore-next-line
@@ -108,9 +113,9 @@ class Money
     /**
      * @param string $name
      * @param array $arguments
-     * @return false|mixed
+     * @return mixed|false
      */
-    public static function __callStatic(string $name, array $arguments)
+    public static function __callStatic(string $name, array $arguments): mixed
     {
         $arguments = self::processArguments($arguments);
 
@@ -130,9 +135,10 @@ class Money
      * @param array $arguments
      * @return array
      */
-    protected static function processArguments($arguments = [])
+    protected static function processArguments(array $arguments = []): array
     {
-        for ($i = 0; $i < count($arguments); $i++) {
+        $count = count($arguments);
+        for ($i = 0; $i < $count; $i++) {
             if ($arguments[$i] instanceof Money) {
                 $arguments[$i] = $arguments[$i]->getMoney();
             }

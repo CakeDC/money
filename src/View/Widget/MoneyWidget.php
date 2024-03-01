@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace CakeDC\Money\View\Widget;
 
 use Cake\View\Form\ContextInterface;
+use Cake\View\StringTemplate;
 use Cake\View\Widget\WidgetInterface;
 use CakeDC\Money\Money;
 use CakeDC\Money\Utility\MoneyUtil;
@@ -29,14 +30,14 @@ class MoneyWidget implements WidgetInterface
      *
      * @var \Cake\View\StringTemplate
      */
-    protected $_templates;
+    protected StringTemplate $_templates;
 
     /**
      * Constructor.
      *
      * @param \Cake\View\StringTemplate $templates Templates list.
      */
-    public function __construct($templates)
+    public function __construct(StringTemplate $templates)
     {
         $this->_templates = $templates;
     }

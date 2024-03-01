@@ -20,6 +20,8 @@ use Money\Currency;
 use Money\Formatter\BitcoinMoneyFormatter;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\MoneyFormatter;
+use NumberFormatter;
+use RuntimeException;
 
 /**
  * Class MoneyUtil
@@ -31,18 +33,18 @@ use Money\MoneyFormatter;
 class MoneyUtil
 {
     /**
-     * @var \Money\MoneyFormatter[]
+     * @var array<\Money\MoneyFormatter>
      */
-    protected static $_moneyFormatters = [];
+    protected static array $_moneyFormatters = [];
 
     /**
      * Returns a new object of type Money
      *
-     * @param \CakeDC\Money\Money|int|float|string $value
+     * @param \CakeDC\Money\Money|string|float|int $value
      * @param bool $fromDb
      * @return \CakeDC\Money\Money
      */
-    public static function money($value, bool $fromDb = false): ?Money
+    public static function money(Money|int|float|string $value, bool $fromDb = false): ?Money
     {
         if (!is_numeric($value) && empty($value)) {
             return null;
@@ -106,12 +108,17 @@ class MoneyUtil
         $iso = new ISOCurrencies();
         $bitcoin = new BitcoinCurrencies();
         if ($iso->contains($currency)) {
-            $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+            $numberFormatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
             $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $iso);
         } elseif ($bitcoin->contains($currency)) {
             $moneyFormatter = new BitcoinMoneyFormatter(7, $bitcoin);
         } else {
-            throw new \RuntimeException(sprintf('Cannot format currency \'%s\'. Only ISO currencies and Bitcoin are allowed.', $currency));
+            throw new RuntimeException(
+                sprintf(
+                    'Cannot format currency \'%s\'. Only ISO currencies and Bitcoin are allowed.',
+                    $currency
+                )
+            );
         }
         static::$_moneyFormatters[$currency->getCode()] = $moneyFormatter;
 

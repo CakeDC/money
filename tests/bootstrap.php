@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+use Cake\Controller\Controller;
+
 /**
  * Test suite bootstrap for CakeDC/Money.
  *
@@ -38,7 +40,7 @@ require_once $root . '/vendor/cakephp/cakephp/tests/bootstrap.php';
  */
 require_once CAKE . 'functions.php';
 
-class_alias(\Cake\Controller\Controller::class, 'App\Controller\AppController');
+class_alias(Controller::class, 'App\Controller\AppController');
 if (file_exists($root . '/config/bootstrap.php')) {
     require $root . '/config/bootstrap.php';
 

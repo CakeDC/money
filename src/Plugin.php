@@ -52,7 +52,7 @@ class Plugin extends BasePlugin
         $routes->plugin(
             'CakeDC/Money',
             ['path' => '/money'],
-            function (RouteBuilder $builder) {
+            function (RouteBuilder $builder): void {
                 // Add custom routes here
 
                 $builder->fallbacks();
