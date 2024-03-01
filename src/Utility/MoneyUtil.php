@@ -35,7 +35,7 @@ class MoneyUtil
     /**
      * @var array<\Money\MoneyFormatter>
      */
-    protected static array $_moneyFormatters = [];
+    protected static array $moneyFormatters = [];
 
     /**
      * Returns a new object of type Money
@@ -91,7 +91,7 @@ class MoneyUtil
         /** @var \Money\Currency $currency */
         $currency = $value->getCurrency();
 
-        return static::_loadMoneyFormatter($currency)->format($value->getMoney());
+        return static::loadMoneyFormatter($currency)->format($value->getMoney());
     }
 
     /**
@@ -100,10 +100,10 @@ class MoneyUtil
      * @param \Money\Currency $currency
      * @return \Money\MoneyFormatter
      */
-    protected static function _loadMoneyFormatter(Currency $currency): MoneyFormatter
+    protected static function loadMoneyFormatter(Currency $currency): MoneyFormatter
     {
-        if (isset(static::$_moneyFormatters[$currency->getCode()])) {
-            return static::$_moneyFormatters[$currency->getCode()];
+        if (isset(static::$moneyFormatters[$currency->getCode()])) {
+            return static::$moneyFormatters[$currency->getCode()];
         }
         $iso = new ISOCurrencies();
         $bitcoin = new BitcoinCurrencies();
@@ -120,9 +120,9 @@ class MoneyUtil
                 )
             );
         }
-        static::$_moneyFormatters[$currency->getCode()] = $moneyFormatter;
+        static::$moneyFormatters[$currency->getCode()] = $moneyFormatter;
 
-        return static::$_moneyFormatters[$currency->getCode()];
+        return static::$moneyFormatters[$currency->getCode()];
     }
 
     /**

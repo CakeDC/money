@@ -30,7 +30,7 @@ class MoneyWidget implements WidgetInterface
      *
      * @var \Cake\View\StringTemplate
      */
-    protected StringTemplate $_templates;
+    protected StringTemplate $templates;
 
     /**
      * Constructor.
@@ -39,7 +39,7 @@ class MoneyWidget implements WidgetInterface
      */
     public function __construct(StringTemplate $templates)
     {
-        $this->_templates = $templates;
+        $this->templates = $templates;
     }
 
     /**
@@ -64,11 +64,11 @@ class MoneyWidget implements WidgetInterface
         $data['class'] = ($data['class'] ?? '') . ' form-control';
         $data['step'] = '.01';
 
-        return $this->_templates->format('input', [
+        return $this->templates->format('input', [
             'name' => $data['name'],
             'type' => 'number',
             'templateVars' => $data['templateVars'],
-            'attrs' => $this->_templates->formatAttributes(
+            'attrs' => $this->templates->formatAttributes(
                 $data,
                 ['name', 'type']
             ),
