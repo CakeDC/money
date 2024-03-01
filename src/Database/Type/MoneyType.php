@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Copyright 2021, Cake Development Corporation (https://www.cakedc.com)
  *
@@ -29,7 +31,7 @@ class MoneyType extends BaseType implements TypeInterface
      * Casts given value from a database type to a PHP equivalent.
      *
      * @param mixed $value Value to be converted to PHP equivalent
-     * @param \Cake\Database\DriverInterface $driver Object from which database preferences and configuration will be extracted
+     * @param \Cake\Database\Driver $driver Object from which database preferences and configuration will be extracted
      * @return ?\CakeDC\Money\Money Given value casted from a database to a PHP equivalent.
      */
     public function toPHP(mixed $value, Driver $driver) : ?Money
@@ -52,7 +54,7 @@ class MoneyType extends BaseType implements TypeInterface
      * @param mixed $value The value to convert.
      * @return ?\CakeDC\Money\Money Converted value.
      */
-    public function marshal($value): ?Money
+    public function marshal(mixed $value): ?Money
     {
         if ($value === null) {
             return null;
@@ -66,10 +68,10 @@ class MoneyType extends BaseType implements TypeInterface
      * Casts given value from a PHP type to one acceptable by a database.
      *
      * @param ?\CakeDC\Money\Money $value Value to be converted to a database equivalent.
-     * @param \Cake\Database\DriverInterface $driver Object from which database preferences and configuration will be extracted.
+     * @param \Cake\Database\Driver $driver Object from which database preferences and configuration will be extracted.
      * @return ?string Given PHP type casted to one acceptable by a database.
      */
-    public function toDatabase($value, Driver $driver) : ?string
+    public function toDatabase(mixed $value, Driver $driver) : ?string
     {
         if ($value === null) {
             return null;
@@ -85,10 +87,10 @@ class MoneyType extends BaseType implements TypeInterface
      * Casts given value to its Statement equivalent.
      *
      * @param mixed $value Value to be converted to PDO statement.
-     * @param \Cake\Database\DriverInterface $driver Object from which database preferences and configuration will be extracted.
+     * @param \Cake\Database\Driver $driver Object from which database preferences and configuration will be extracted.
      * @return int Given value casted to its Statement equivalent.
      */
-    public function toStatement($value, Driver $driver) : int
+    public function toStatement(mixed $value, Driver $driver) : int
     {
         if ($value === null) {
             return PDO::PARAM_NULL;
