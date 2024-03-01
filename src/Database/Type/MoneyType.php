@@ -25,13 +25,12 @@ use PDO;
  */
 class MoneyType extends BaseType implements TypeInterface
 {
-
     /**
      * Casts given value from a database type to a PHP equivalent.
      *
      * @param mixed $value Value to be converted to PHP equivalent
      * @param \Cake\Database\DriverInterface $driver Object from which database preferences and configuration will be extracted
-     * @return ?Money Given value casted from a database to a PHP equivalent.
+     * @return ?\CakeDC\Money\Money Given value casted from a database to a PHP equivalent.
      */
     public function toPHP(mixed $value, Driver $driver) : ?Money
     {
@@ -51,9 +50,9 @@ class MoneyType extends BaseType implements TypeInterface
      * that make sense for the rest of the ORM/Database layers.
      *
      * @param mixed $value The value to convert.
-     * @return ?Money Converted value.
+     * @return ?\CakeDC\Money\Money Converted value.
      */
-    public function marshal($value) : ?Money
+    public function marshal($value): ?Money
     {
         if ($value === null) {
             return null;
@@ -66,7 +65,7 @@ class MoneyType extends BaseType implements TypeInterface
     /**
      * Casts given value from a PHP type to one acceptable by a database.
      *
-     * @param ?Money $value Value to be converted to a database equivalent.
+     * @param ?\CakeDC\Money\Money $value Value to be converted to a database equivalent.
      * @param \Cake\Database\DriverInterface $driver Object from which database preferences and configuration will be extracted.
      * @return ?string Given PHP type casted to one acceptable by a database.
      */
@@ -97,5 +96,4 @@ class MoneyType extends BaseType implements TypeInterface
 
         return PDO::PARAM_INT;
     }
-
 }
