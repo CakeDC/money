@@ -87,14 +87,14 @@ class Money
     }
 
     /**
-     * @param $name
-     * @param $arguments
+     * @param string $name
+     * @param array $arguments
      * @return false|mixed
      */
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments)
     {
         $arguments = self::processArguments($arguments);
-
+        // @phpstan-ignore-next-line
         $result = call_user_func_array([$this->_money, $name], $arguments);
         if ($result instanceof MoneyPHP) {
             return new self($result);
@@ -104,14 +104,15 @@ class Money
     }
 
     /**
-     * @param $name
-     * @param $arguments
+     * @param string $name
+     * @param array $arguments
      * @return false|mixed
      */
-    public static function __callStatic($name, $arguments)
+    public static function __callStatic(string $name, array $arguments)
     {
         $arguments = self::processArguments($arguments);
 
+        // @phpstan-ignore-next-line
         return new self(forward_static_call_array([MoneyPHP::class, $name], $arguments));
     }
 

@@ -18,9 +18,14 @@ use CakeDC\Money\Money;
 /**
  * Class MoneyHelper
  * @package CakeDC\Money\View\Helper
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Cake\View\Helper\NumberHelper $Number
  */
 class MoneyHelper extends Helper
 {
+    /**
+     * @inheritDoc
+     */
     protected $helpers = ['Html', 'Number'];
 
     /**
@@ -36,7 +41,7 @@ class MoneyHelper extends Helper
 
     /**
      * Format number or money as currency.
-     * @param $value
+     * @param \CakeDC\Money\Money|float|string $value
      * @return string
      */
     public function currency($value): string

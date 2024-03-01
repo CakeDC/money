@@ -29,18 +29,18 @@ use Money\MoneyFormatter;
 class MoneyUtil
 {
     /**
-     * @var MoneyFormatter
+     * @var \Money\MoneyFormatter[]
      */
     protected static $_moneyFormatters = [];
 
     /**
      * Returns a new object of type Money
      *
-     * @param int|float|string $value
+     * @param \CakeDC\Money\Money|int|float|string $value
      * @param boolean $fromDb
      * @return Money
      */
-    public static function money($value, $fromDb = false) : ?Money
+    public static function money($value, bool $fromDb = false) : ?Money
     {
         if (!is_numeric($value) && empty($value)) {
             return null;
@@ -50,12 +50,12 @@ class MoneyUtil
         }
 
         if (!$fromDb) {
-            $parts = explode('.', $value );
+            $parts = explode('.', (string)$value);
 
             if (!isset($parts[1])) {
                 $parts[1] = '00';
             }
-            $decimalLength = strlen($parts[1] ?? '');
+            $decimalLength = strlen($parts[1]);
 
             if ($decimalLength == 1) {
                 $parts[1] = $parts[1] . '0';
@@ -65,7 +65,8 @@ class MoneyUtil
         }
         
         $currency = Configure::read('Money.currency', 'USD');
-        return Money::{$currency}(!empty($value) ? str_replace(',', '', $value) : 0);
+
+        return Money::{$currency}(!empty($value) ? str_replace(',', '', (string)$value) : 0);
     }
 
     /**
@@ -74,7 +75,7 @@ class MoneyUtil
      */
     public static function float(Money $money) : float
     {
-        return $money->getAmount() / 100;
+        return ((float)$money->getAmount()) / 100;
     }
 
     /**
@@ -121,6 +122,7 @@ class MoneyUtil
      */
     public static function zero() : Money
     {
+        /** @var Money */
         return self::money(0);
     }
 
