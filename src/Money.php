@@ -35,7 +35,7 @@ use Money\Money as MoneyPHP;
  * @method \CakeDC\Money\Money mod(\CakeDC\Money\Money $divisor) See \Money\Money::mod()
  * @method \CakeDC\Money\Money[] allocate(array $ratios) See \Money\Money::allocate()
  * @method \CakeDC\Money\Money[] allocateTo($n) See \Money\Money::allocateTo()
- * @method string ratioOf(Money $money) See \Money\Money::ratioOf()
+ * @method string ratioOf(\CakeDC\Money\Money $money) See \Money\Money::ratioOf()
  * @method \CakeDC\Money\Money absolute() See \Money\Money::absolute()
  * @method \CakeDC\Money\Money negative() See \Money\Money::negative()
  * @method bool isZero() See \Money\Money::isZero()
@@ -52,29 +52,29 @@ use Money\Money as MoneyPHP;
  */
 class Money
 {
-    const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+    public const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
 
-    const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+    public const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
 
-    const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+    public const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
 
-    const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+    public const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
-    const ROUND_UP = 5;
+    public const ROUND_UP = 5;
 
-    const ROUND_DOWN = 6;
+    public const ROUND_DOWN = 6;
 
-    const ROUND_HALF_POSITIVE_INFINITY = 7;
+    public const ROUND_HALF_POSITIVE_INFINITY = 7;
 
-    const ROUND_HALF_NEGATIVE_INFINITY = 8;
+    public const ROUND_HALF_NEGATIVE_INFINITY = 8;
 
     /**
-     * @var MoneyPHP
+     * @var \Money\Money
      */
     protected $_money;
 
     /**
-     * @return MoneyPHP
+     * @return \Money\Money
      */
     public function getMoney(): MoneyPHP
     {
@@ -130,7 +130,7 @@ class Money
      */
     protected static function processArguments($arguments = [])
     {
-        for ($i=0; $i < count($arguments); $i++) { 
+        for ($i = 0; $i < count($arguments); $i++) {
             if ($arguments[$i] instanceof Money) {
                 $arguments[$i] = $arguments[$i]->getMoney();
             }

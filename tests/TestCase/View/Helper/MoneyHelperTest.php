@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace CakeDC\Money\Test\TestCase\View\Helper;
 
-use CakeDC\Money\View\Helper\MoneyHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use CakeDC\Money\Utility\MoneyUtil;
+use CakeDC\Money\View\Helper\MoneyHelper;
 
 /**
  * CakeDC\Money\View\Helper\MoneyHelper Test Case
@@ -56,7 +56,7 @@ class MoneyHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            '<span class="">$100.00</span>', 
+            '<span class="">$100.00</span>',
             $this->MoneyHelper->currency('100')
         );
 
@@ -67,7 +67,7 @@ class MoneyHelperTest extends TestCase
 
         $this->assertEquals(
             '<span class="negative-balance">-$100.00</span>',
-            $this->MoneyHelper->currency("-100")
+            $this->MoneyHelper->currency('-100')
         );
 
         $this->assertEquals(

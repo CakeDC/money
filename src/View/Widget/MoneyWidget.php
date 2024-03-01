@@ -12,11 +12,12 @@ namespace CakeDC\Money\View\Widget;
 
 use Cake\View\Form\ContextInterface;
 use Cake\View\Widget\WidgetInterface;
-use CakeDC\Money\Utility\MoneyUtil;
 use CakeDC\Money\Money;
+use CakeDC\Money\Utility\MoneyUtil;
 
 /**
  * Class MoneyWidget
+ *
  * @package CakeDC\Money\View\Widget
  */
 class MoneyWidget implements WidgetInterface
@@ -59,6 +60,7 @@ class MoneyWidget implements WidgetInterface
         }
         $data['class'] = ($data['class'] ?? '') . ' form-control';
         $data['step'] = '.01';
+
         return $this->_templates->format('input', [
             'name' => $data['name'],
             'type' => 'number',
