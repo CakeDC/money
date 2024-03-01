@@ -3,13 +3,10 @@ declare(strict_types=1);
 
 namespace CakeDC\Money\Test\TestCase\Utility;
 
-use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use CakeDC\Money\Database\Type\MoneyType;
 use CakeDC\Money\Utility\MoneyUtil;
-use Exception;
 use PDO;
-use RuntimeException;
 
 /**
  * CakeDC\Money\Database\Type\MoneyTypeTest Test Case
@@ -67,6 +64,4 @@ class MoneyTypeTest extends TestCase
         $this->assertEquals(PDO::PARAM_NULL, $this->moneyType->toStatement(null, $this->driver));
         $this->assertEquals(PDO::PARAM_INT, $this->moneyType->toStatement(100, $this->driver));
     }
-
-
 }

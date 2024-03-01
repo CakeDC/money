@@ -10,17 +10,22 @@
  */
 namespace CakeDC\Money\View\Helper;
 
-
 use Cake\View\Helper;
-use CakeDC\Money\Utility\MoneyUtil;
 use CakeDC\Money\Money;
+use CakeDC\Money\Utility\MoneyUtil;
 
 /**
  * Class MoneyHelper
+ *
  * @package CakeDC\Money\View\Helper
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Cake\View\Helper\NumberHelper $Number
  */
 class MoneyHelper extends Helper
 {
+    /**
+     * @inheritDoc
+     */
     protected $helpers = ['Html', 'Number'];
 
     /**
@@ -36,7 +41,8 @@ class MoneyHelper extends Helper
 
     /**
      * Format number or money as currency.
-     * @param $value
+     *
+     * @param \CakeDC\Money\Money|float|string $value
      * @return string
      */
     public function currency($value): string
@@ -47,7 +53,8 @@ class MoneyHelper extends Helper
         } else {
             $output = $this->Number->currency($value);
         }
-        if ((is_numeric($value) && $value < 0) ||
+        if (
+            (is_numeric($value) && $value < 0) ||
             ($value instanceof Money && MoneyUtil::lessThanZero($value))
         ) {
             $class = 'negative-balance';

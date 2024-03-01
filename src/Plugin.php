@@ -14,7 +14,7 @@ namespace CakeDC\Money;
 
 use Cake\Core\BasePlugin;
 use Cake\Core\PluginApplicationInterface;
-use Cake\Database\Type;
+use Cake\Database\TypeFactory;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\RouteBuilder;
 use CakeDC\Money\Database\Type\MoneyType;
@@ -35,7 +35,7 @@ class Plugin extends BasePlugin
      */
     public function bootstrap(PluginApplicationInterface $app): void
     {
-        Type::map('money', MoneyType::class);
+        TypeFactory::map('money', MoneyType::class);
     }
 
     /**
@@ -64,7 +64,7 @@ class Plugin extends BasePlugin
     /**
      * Add middleware for the plugin.
      *
-     * @param \Cake\Http\MiddlewareQueue $middleware The middleware queue to update.
+     * @param \Cake\Http\MiddlewareQueue $middlewareQueue The middleware queue to update.
      * @return \Cake\Http\MiddlewareQueue
      */
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
