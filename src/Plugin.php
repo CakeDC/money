@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Copyright 2021, Cake Development Corporation (https://www.cakedc.com)
  *
@@ -8,8 +10,6 @@
  * @copyright Copyright 2021, Cake Development Corporation (https://www.cakedc.com)
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-declare(strict_types=1);
-
 namespace CakeDC\Money;
 
 use Cake\Core\BasePlugin;
@@ -52,7 +52,7 @@ class Plugin extends BasePlugin
         $routes->plugin(
             'CakeDC/Money',
             ['path' => '/money'],
-            function (RouteBuilder $builder) {
+            function (RouteBuilder $builder): void {
                 // Add custom routes here
 
                 $builder->fallbacks();
@@ -64,7 +64,7 @@ class Plugin extends BasePlugin
     /**
      * Add middleware for the plugin.
      *
-     * @param \Cake\Http\MiddlewareQueue $middleware The middleware queue to update.
+     * @param \Cake\Http\MiddlewareQueue $middlewareQueue The middleware queue to update.
      * @return \Cake\Http\MiddlewareQueue
      */
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue

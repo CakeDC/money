@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Copyright 2021, Cake Development Corporation (https://www.cakedc.com)
  *
@@ -11,13 +13,15 @@
 namespace CakeDC\Money\Utility;
 
 use Cake\Core\Configure;
+use CakeDC\Money\Money;
 use Money\Currencies\BitcoinCurrencies;
 use Money\Currencies\ISOCurrencies;
 use Money\Currency;
 use Money\Formatter\BitcoinMoneyFormatter;
 use Money\Formatter\IntlMoneyFormatter;
-use CakeDC\Money\Money;
 use Money\MoneyFormatter;
+use NumberFormatter;
+use RuntimeException;
 
 /**
  * Class MoneyUtil
@@ -29,18 +33,18 @@ use Money\MoneyFormatter;
 class MoneyUtil
 {
     /**
-     * @var MoneyFormatter
+     * @var array<\Money\MoneyFormatter>
      */
-    protected static $_moneyFormatters = [];
+    protected static array $moneyFormatters = [];
 
     /**
      * Returns a new object of type Money
      *
-     * @param int|float|string $value
-     * @param boolean $fromDb
-     * @return Money
+     * @param \CakeDC\Money\Money|string|float|int $value
+     * @param bool $fromDb
+     * @return \CakeDC\Money\Money
      */
-    public static function money($value, $fromDb = false) : ?Money
+    public static function money(Money|int|float|string $value, bool $fromDb = false): ?Money
     {
         if (!is_numeric($value) && empty($value)) {
             return null;
@@ -50,12 +54,12 @@ class MoneyUtil
         }
 
         if (!$fromDb) {
-            $parts = explode('.', $value );
+            $parts = explode('.', (string)$value);
 
             if (!isset($parts[1])) {
                 $parts[1] = '00';
             }
-            $decimalLength = strlen($parts[1] ?? '');
+            $decimalLength = strlen($parts[1]);
 
             if ($decimalLength == 1) {
                 $parts[1] = $parts[1] . '0';
@@ -63,74 +67,82 @@ class MoneyUtil
 
             $value = ltrim($parts[0] . $parts[1], '0');
         }
-        
+
         $currency = Configure::read('Money.currency', 'USD');
-        return Money::{$currency}(!empty($value) ? str_replace(',', '', $value) : 0);
+
+        return Money::{$currency}(!empty($value) ? str_replace(',', '', (string)$value) : 0);
     }
 
     /**
-     * @param Money $money
+     * @param \CakeDC\Money\Money $money
      * @return float
      */
-    public static function float(Money $money) : float
+    public static function float(Money $money): float
     {
-        return $money->getAmount() / 100;
+        return (float)$money->getAmount() / 100;
     }
 
     /**
-     * @param Money $value
+     * @param \CakeDC\Money\Money $value
      * @return string
      */
-    public static function format(Money $value) : string
+    public static function format(Money $value): string
     {
-        /** @var Currency $currency */
+        /** @var \Money\Currency $currency */
         $currency = $value->getCurrency();
 
-        return static::_loadMoneyFormatter($currency)->format($value->getMoney());
+        return static::loadMoneyFormatter($currency)->format($value->getMoney());
     }
 
     /**
      * Loads proper money formatter or returns if it is already loaded
      *
-     * @param Currency $currency
-     * @return MoneyFormatter
+     * @param \Money\Currency $currency
+     * @return \Money\MoneyFormatter
      */
-    protected static function _loadMoneyFormatter(Currency $currency) : MoneyFormatter
+    protected static function loadMoneyFormatter(Currency $currency): MoneyFormatter
     {
-        if (isset(static::$_moneyFormatters[$currency->getCode()])) {
-            return static::$_moneyFormatters[$currency->getCode()];
+        if (isset(static::$moneyFormatters[$currency->getCode()])) {
+            return static::$moneyFormatters[$currency->getCode()];
         }
         $iso = new ISOCurrencies();
         $bitcoin = new BitcoinCurrencies();
         if ($iso->contains($currency)) {
-            $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+            $numberFormatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
             $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $iso);
         } elseif ($bitcoin->contains($currency)) {
             $moneyFormatter = new BitcoinMoneyFormatter(7, $bitcoin);
         } else {
-            throw new \RuntimeException(sprintf('Cannot format currency \'%s\'. Only ISO currencies and Bitcoin are allowed.', $currency));
+            throw new RuntimeException(
+                sprintf(
+                    'Cannot format currency \'%s\'. Only ISO currencies and Bitcoin are allowed.',
+                    $currency
+                )
+            );
         }
-        static::$_moneyFormatters[$currency->getCode()] = $moneyFormatter;
-        return static::$_moneyFormatters[$currency->getCode()];
+        static::$moneyFormatters[$currency->getCode()] = $moneyFormatter;
+
+        return static::$moneyFormatters[$currency->getCode()];
     }
 
     /**
      * Returns money object with value 0.00, false otherwise.
      *
-     * @return Money
+     * @return \CakeDC\Money\Money
      */
-    public static function zero() : Money
+    public static function zero(): Money
     {
+        /** @var \CakeDC\Money\Money */
         return self::money(0);
     }
 
     /**
      * Returns true if amount value is > 0.00
      *
-     * @param Money $amount
+     * @param \CakeDC\Money\Money $amount
      * @return bool
      */
-    public static function greaterThanZero(Money $amount) : bool
+    public static function greaterThanZero(Money $amount): bool
     {
         return $amount->greaterThan(self::zero());
     }
@@ -138,10 +150,10 @@ class MoneyUtil
     /**
      * Returns true if amount value is >= 0.00, false otherwise.
      *
-     * @param Money $amount
+     * @param \CakeDC\Money\Money $amount
      * @return bool
      */
-    public static function greaterThanOrEqualZero(Money $amount) : bool
+    public static function greaterThanOrEqualZero(Money $amount): bool
     {
         return $amount->greaterThanOrEqual(self::zero());
     }
@@ -149,10 +161,10 @@ class MoneyUtil
     /**
      * Returns true if amount value is < 0.00, false otherwise.
      *
-     * @param Money $amount
+     * @param \CakeDC\Money\Money $amount
      * @return bool
      */
-    public static function lessThanZero(Money $amount) : bool
+    public static function lessThanZero(Money $amount): bool
     {
         return $amount->lessThan(self::zero());
     }
@@ -160,10 +172,10 @@ class MoneyUtil
     /**
      * Returns true if amount value is <= 0.00, false otherwise.
      *
-     * @param Money $amount
+     * @param \CakeDC\Money\Money $amount
      * @return bool
      */
-    public static function lessThanOrEqualZero(Money $amount) : bool
+    public static function lessThanOrEqualZero(Money $amount): bool
     {
         return $amount->lessThanOrEqual(self::zero());
     }
@@ -171,12 +183,11 @@ class MoneyUtil
     /**
      * Returns true if amount value is = 0.00, false otherwise.
      *
-     * @param Money $amount
+     * @param \CakeDC\Money\Money $amount
      * @return bool
      */
-    public static function equalZero(Money $amount) : bool
+    public static function equalZero(Money $amount): bool
     {
         return $amount->equals(self::zero());
     }
-
 }

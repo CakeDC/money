@@ -29,11 +29,11 @@ It covers the following features:
 
 ## Versions and branches
 
-| CakePHP | CakeDC Money Plugin | Notes |
-| :-------------: | :------------------------: | :---- |
-| ^5.0             | [2.x](https://github.com/cakedc/money/tree/2.next-cake5)                      | stable |
-| ^4.5             | [1.x](https://github.com/cakedc/money/tree/1.next-cake4)                      | stable |
-| ^4.0             | [0.0.1](https://github.com/cakedc/money/tree/0.0.1)                      | deprecated |
+| CakePHP |                   CakeDC Money Plugin                    | Notes      |
+|:-------:|:--------------------------------------------------------:|:-----------|
+|  ^5.0   | [2.x](https://github.com/cakedc/money/tree/2.next-cake5) | stable     |
+|  ^4.5   | [1.x](https://github.com/cakedc/money/tree/1.next-cake4) | stable     |
+|  ^4.0   |   [0.0.1](https://github.com/cakedc/money/tree/0.0.1)    | deprecated |
 
 ## Installation
 

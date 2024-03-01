@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Copyright 2021, Cake Development Corporation (https://www.cakedc.com)
  *
@@ -8,8 +10,6 @@
  * @copyright Copyright 2021, Cake Development Corporation (https://www.cakedc.com)
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-declare(strict_types=1);
-
 namespace CakeDC\Money\Controller;
 
 use App\Controller\AppController as BaseController;

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Copyright 2021, Cake Development Corporation (https://www.cakedc.com)
  *
@@ -11,12 +13,14 @@
 namespace CakeDC\Money\View\Widget;
 
 use Cake\View\Form\ContextInterface;
+use Cake\View\StringTemplate;
 use Cake\View\Widget\WidgetInterface;
-use CakeDC\Money\Utility\MoneyUtil;
 use CakeDC\Money\Money;
+use CakeDC\Money\Utility\MoneyUtil;
 
 /**
  * Class MoneyWidget
+ *
  * @package CakeDC\Money\View\Widget
  */
 class MoneyWidget implements WidgetInterface
@@ -26,16 +30,16 @@ class MoneyWidget implements WidgetInterface
      *
      * @var \Cake\View\StringTemplate
      */
-    protected $_templates;
+    protected StringTemplate $templates;
 
     /**
      * Constructor.
      *
      * @param \Cake\View\StringTemplate $templates Templates list.
      */
-    public function __construct($templates)
+    public function __construct(StringTemplate $templates)
     {
-        $this->_templates = $templates;
+        $this->templates = $templates;
     }
 
     /**
@@ -59,11 +63,12 @@ class MoneyWidget implements WidgetInterface
         }
         $data['class'] = ($data['class'] ?? '') . ' form-control';
         $data['step'] = '.01';
-        return $this->_templates->format('input', [
+
+        return $this->templates->format('input', [
             'name' => $data['name'],
             'type' => 'number',
             'templateVars' => $data['templateVars'],
-            'attrs' => $this->_templates->formatAttributes(
+            'attrs' => $this->templates->formatAttributes(
                 $data,
                 ['name', 'type']
             ),
