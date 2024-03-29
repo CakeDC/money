@@ -35,7 +35,12 @@ class MoneyHelper extends Helper
      */
     public function initialize(array $config): void
     {
-        $this->getView()->loadHelper('Form', ['typeMap' => ['money' => 'money']]);
+        if ($this->getView()->helpers()->has('Form')) {
+            $this->getView()->helpers()->get('Form')->setConfig('typeMap', ['money' => 'money']);
+        } else {
+            $this->getView()->loadHelper('Form', ['typeMap' => ['money' => 'money']]);
+        }
+
         $this->getView()->Form->addWidget('money', ['CakeDC/Money.Money']);
 
         parent::initialize($config);
