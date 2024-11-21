@@ -116,7 +116,7 @@ class MoneyUtil
             throw new RuntimeException(
                 sprintf(
                     'Cannot format currency \'%s\'. Only ISO currencies and Bitcoin are allowed.',
-                    $currency
+                    (string) $currency
                 )
             );
         }
