@@ -26,23 +26,22 @@
         }
     },
     "scripts": {
+        "analyse": [
+            "@stan",
+            "@psalm"
+         ],
         "check": [
             "@cs-check",
             "@test"
         ],
         "cs-check": "phpcs --colors --parallel=16 -p src/ tests/",
         "cs-fix": "phpcbf --colors --parallel=16 -p src/ tests/",
-        "phpstan": "tools/phpstan analyse",
-        "psalm": "tools/psalm --show-info=false",
-        "stan": [
-            "@phpstan",
-            "@psalm"
-        ],
-        "phpstan-tests": "tools/phpstan analyze -c tests/phpstan.neon",
-        "phpstan-baseline": "tools/phpstan --generate-baseline",
-        "psalm-baseline": "tools/psalm  --set-baseline=psalm-baseline.xml",
-        "stan-setup": "phive install",
-        "test": "phpunit"
+        "test": "phpunit",
+        "stan": "phpstan analyse src/",
+        "psalm": "php vendor/psalm/phar/psalm.phar --show-info=false src/ ",
+        "stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:~1.9.0 psalm/phar:~5.1.0 && mv composer.backup composer.json",
+        "stan-rebuild-baseline": "phpstan analyse --configuration phpstan.neon --error-format baselineNeon src/ > phpstan-baseline.neon",
+        "psalm-rebuild-baseline": "php vendor/psalm/phar/psalm.phar --show-info=false  --set-baseline=psalm-baseline.xml  src/"
     },
     "config": {
         "allow-plugins": {
