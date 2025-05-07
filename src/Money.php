@@ -280,6 +280,8 @@ class Money
     public function __call(string $name, array $arguments): mixed
     {
         $arguments = self::processArguments($arguments);
+        $arguments = self::processFloats($name, $arguments);
+
         // @phpstan-ignore-next-line
         $result = call_user_func_array([$this->_money, $name], $arguments);
         if ($result instanceof MoneyPHP) {
@@ -320,6 +322,28 @@ class Money
         for ($i = 0; $i < $count; $i++) {
             if ($arguments[$i] instanceof Money) {
                 $arguments[$i] = $arguments[$i]->getMoney();
+            }
+        }
+
+        return $arguments;
+    }
+
+    /**
+     * Make multiply, divide and mod backward compatible with float values
+     *
+     * In v4.0.1, the first parameter from these functions changed from `string` to `int|string`,
+     * making float values lose the decimals due to auto typecast to int
+     *
+     * @param string $name
+     * @param array $arguments
+     * @return array
+     */
+    protected static function processFloats(string $name, array $arguments = []): array
+    {
+        $functions = ['multiply', 'divide', 'mod'];
+        if (in_array($name, $functions)) {
+            if (isset($arguments[0]) && is_float($arguments[0])) {
+                $arguments[0] = (string)$arguments[0];
             }
         }
 
