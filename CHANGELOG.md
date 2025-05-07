@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.4] 2024-03-29
+* Fixed issue with `multiply`, `divide` and `mod` first parameter, that changed the type from `string` to `int|string` breaking functionality with float values.
+
 ## [2.0.3] 2024-03-29
  * Improved the load of the FormHelper in the MoneyHelper
 
